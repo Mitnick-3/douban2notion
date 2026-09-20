@@ -71,7 +71,7 @@ def get_file(url):
 
 
 def get_multi_select(names):
-    return {"RICH_TEXT": [{"name": name} for name in names]}
+    return {"MULTI_SELECT": [{"name": name} for name in names]}
 
 
 def get_relation(ids):
