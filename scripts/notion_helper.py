@@ -184,7 +184,13 @@ class NotionHelper:
         if key in self.__cache:
             return self.__cache.get(key)
         filter = {"property": "标题", "title": {"equals": name}}
-        response = self.client.databases.query(database_id=id, filter=filter)
+        # 新版API：先获取data_source_id
+        db_info = self.client.databases.retrieve(database_id=id)
+        data_source_id = db_info["data_sources"][0]["id"]
+        response = self.client.data_sources.query(
+            data_source_id=data_source_id,
+            filter=filter
+        )
         if len(response.get("results")) == 0:
             parent = {"database_id": id, "type": "database_id"}
             properties["标题"] = get_title(name)
@@ -195,9 +201,6 @@ class NotionHelper:
             page_id = response.get("results")[0].get("id")
         self.__cache[key] = page_id
         return page_id
-
-
-
     @retry(stop_max_attempt_number=3, wait_fixed=5000)
     def update_book_page(self, page_id, properties):
         return self.client.pages.update(page_id=page_id, properties=properties)
