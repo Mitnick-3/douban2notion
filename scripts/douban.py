@@ -130,16 +130,49 @@ def insert_movie():
                     )
                     for x in subject.get("genres")
                 ]
-            if subject.get("actors"):
-                l = []
-                actors = subject.get("actors")[0:100]
-                for actor in actors:
-                    if actor.get("name"):
-                        if "/" in actor.get("name"):
-                            l.extend(actor.get("name").split("/"))
-                        else:
-                            l.append(actor.get("name"))  
-                movie["演员"] = l
+            
+#            if subject.get("actors"):
+#                l = []
+#                actors = subject.get("actors")[0:100]
+#                for actor in actors:
+#                    if actor.get("name"):
+#                        if "/" in actor.get("name"):
+#                            l.extend(actor.get("name").split("/"))
+#                        else:
+#                            l.append(actor.get("name"))  
+#                movie["演员"] = l
+
+        if subject.get("actors"):
+            l = []
+            actors = subject.get("actors")[0:100]
+        for actor in actors:
+            if actor.get("name"):
+                if "/" in actor.get("name"):
+                    l.extend(actor.get("name").split("/"))
+                else:
+                    l.append(actor.get("name"))
+    # 把列表拼接成中文逗号分隔字符串
+     actor_str = "，".join(l)
+     movie["演员"] = {
+            "rich_text": [
+                {
+                    "text": {
+                        "content": actor_str
+                    }
+                }
+            ]
+        }
+    else:
+    # 没有演员时，给空富文本，防止报错
+        movie["演员"] = {
+            "rich_text": [
+                {
+                    "text": {
+                        "content": ""
+                    }
+                }
+            ]
+        }
             if subject.get("directors"):
                 movie["导演"] = [
                     notion_helper.get_relation_id(
