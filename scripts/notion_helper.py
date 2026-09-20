@@ -272,13 +272,13 @@ class NotionHelper:
  #       return results
 
     def query_all(self, database_id):
-    """获取database中所有的数据"""
-    results = []
-    has_more = True
-    start_cursor = None
-    # 新版：先获取数据库信息，拿到 data_source_id
-    db_info = self.client.databases.retrieve(database_id=database_id)
-    data_source_id = db_info["data_sources"][0]["id"]
+        """获取database中所有的数据"""
+        results = []
+        has_more = True
+        start_cursor = None
+        # 新版：先获取数据库信息，拿到 data_source_id
+        db_info = self.client.databases.retrieve(database_id=database_id)
+        data_source_id = db_info["data_sources"][0]["id"]
 
     while has_more:
         response = self.client.data_sources.query(
