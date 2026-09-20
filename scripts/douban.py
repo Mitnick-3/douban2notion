@@ -142,37 +142,20 @@ def insert_movie():
 #                            l.append(actor.get("name"))  
 #                movie["演员"] = l
 
-        if subject.get("actors"):
-            l = []
-            actors = subject.get("actors")[0:100]
-            for actor in actors:
-                if actor.get("name"):
-                    if "/" in actor.get("name"):
-                        l.extend(actor.get("name").split("/"))
-                    else:
-                        l.append(actor.get("name"))
-            actor_str = "，".join(l)
-            movie["演员"] = {
-                "rich_text": [
-                    {
-                        "text": {
-                            "content": actor_str
-                        }
-                        }
-                ]
-            }
-        else:
-    # 没有演员数据时，设置空富文本，避免接口报错
-            movie["演员"] = {
-                "rich_text": [
-                    {
-                        "text": {
-                            "content": ""
-                        }
-                    }
-                ]
-            }
-            if subject.get("directors"):
+               if subject.get("actors"):
+                    l = []
+                    actors = subject.get("actors")[0:100]
+                    for actor in actors:
+                        if actor.get("name"):
+                            if "/" in actor.get("name"):
+                                l.extend(actor.get("name").split("/"))
+                            else:
+                                l.append(actor.get("name"))
+                    actor_str = "，".join(l)
+                    movie["演员"] = actor_str
+                else:
+                    movie["演员"] = ""
+                        if subject.get("directors"):
                 movie["导演"] = [
                     notion_helper.get_relation_id(
                         x.get("name"), notion_helper.director_database_id, USER_ICON_URL
