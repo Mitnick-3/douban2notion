@@ -289,7 +289,7 @@ class NotionHelper:
         start_cursor = response.get("next_cursor")
         has_more = response.get("has_more")
         results.extend(response.get("results"))
-    return results
+        return results
     
     def get_date_relation(self, properties, date):
         properties["年"] = get_relation(
