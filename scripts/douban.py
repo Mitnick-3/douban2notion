@@ -155,12 +155,12 @@ def insert_movie():
             movie["演员"] = actor_str
         else:
             movie["演员"] = ""
-                movie["导演"] = [
-                    notion_helper.get_relation_id(
-                        x.get("name"), notion_helper.director_database_id, USER_ICON_URL
-                    )
-                    for x in subject.get("directors")[0:100]
-                ]
+            movie["导演"] = [
+                notion_helper.get_relation_id(
+                    x.get("name"), notion_helper.director_database_id, USER_ICON_URL
+                )
+                 for x in subject.get("directors")[0:100]
+            ]
             properties = utils.get_properties(movie, movie_properties_type_dict)
             notion_helper.get_date_relation(properties,create_time)
             parent = {
